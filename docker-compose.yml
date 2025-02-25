@@ -10,18 +10,27 @@ services:
         - 8080:80
       depends_on:
         - php
-        
+        - db
+
     php:
       build: 
         context: .
         dockerfile: ./dockerfiles/php.dockerfile
       volumes:
         - ./src:/var/www/html
-    
+      depends_on: 
+          - db
     composer:
       build: 
         context: .
         dockerfile: ./dockerfiles/composer.dockerfile
       volumes:
         - ./src:/var/www/html
-      
+    db:
+      image: mysql
+      environment:
+        - MYSQL_DATABASE=laravel
+        - MYSQL_ROOT_PASSWORD=toor
+
+
+ 
